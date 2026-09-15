@@ -78,7 +78,7 @@ section{position:relative}
 }
 .eyebrow--muted{color:var(--muted-2)}
 
-.lead{font-size:clamp(18px,2.1vw,21px);line-height:1.55;color:var(--cream);opacity:.92}
+.lead{font-size:clamp(16px,1.6vw,18px);line-height:1.55;color:var(--cream);opacity:.92}
 .dim{color:var(--muted)}
 .small{font-size:14px;line-height:1.55;color:var(--muted)}
 .tiny{font-size:12.5px;line-height:1.5;color:var(--muted-2)}
@@ -91,7 +91,7 @@ section{position:relative}
 
 .btn{
   display:inline-flex;align-items:center;gap:10px;
-  padding:15px 28px;border-radius:100px;
+  padding:13px 26px;border-radius:100px;
   font-size:15px;font-weight:600;letter-spacing:.01em;
   text-decoration:none;border:1px solid transparent;
   transition:transform .18s ease,background .18s ease,border-color .18s ease,color .18s ease;
@@ -158,7 +158,7 @@ section{position:relative}
 /* ── Герой ──────────────────────────────────────────────────── */
 .hero{
   position:relative;overflow:hidden;
-  padding:clamp(64px,11vw,132px) 0 clamp(56px,8vw,96px);
+  padding:clamp(36px,4.6vw,64px) 0 clamp(36px,4.4vw,56px);
   isolation:isolate;
 }
 /* Свет из открытой топки */
@@ -202,39 +202,39 @@ section{position:relative}
 
 .hero__place{
   display:flex;align-items:center;gap:12px;flex-wrap:wrap;
-  font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2);
-  margin-bottom:calc(var(--u)*4);
+  font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2);
+  margin-bottom:calc(var(--u)*3);
 }
 .hero__place b{color:var(--ember);font-weight:600}
 
 h1.hero__h{
-  font-size:clamp(40px,7.4vw,86px);
-  line-height:1.03;letter-spacing:-.025em;
-  max-width:15ch;margin-bottom:calc(var(--u)*4);
+  font-size:clamp(33px,5.2vw,62px);
+  line-height:1.06;letter-spacing:-.022em;
+  max-width:15ch;margin-bottom:calc(var(--u)*3);
 }
 h1.hero__h em{font-style:italic;color:var(--ember)}
 
-.hero__lead{max-width:56ch;font-size:clamp(17px,2vw,20px);line-height:1.6;color:var(--cream);opacity:.86}
+.hero__lead{max-width:54ch;font-size:clamp(15.5px,1.5vw,18px);line-height:1.55;color:var(--cream);opacity:.86}
 
-.hero__cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:calc(var(--u)*5)}
+.hero__cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:calc(var(--u)*4)}
 
 .hero__facts{
   display:grid;grid-template-columns:repeat(4,1fr);
-  margin-top:calc(var(--u)*9);
+  margin-top:calc(var(--u)*5);
   border-top:1px solid var(--line-solid);
 }
 .fact{
-  padding:26px 28px;
+  padding:20px 24px;
   border-right:1px solid var(--line-solid);
 }
 .fact:first-child{padding-left:0}
 .fact:last-child{border-right:0;padding-right:0}
-.fact__n{font-family:var(--serif);font-size:clamp(26px,3.4vw,36px);color:var(--ember);line-height:1;display:block;font-variant-numeric:tabular-nums}
+.fact__n{font-family:var(--serif);font-size:clamp(24px,2.6vw,31px);color:var(--ember);line-height:1;display:block;font-variant-numeric:tabular-nums}
 /* display:block обязателен: инлайновая подпись тянет интерлиньяж
    от родителя (1,62 от 17 px) и строки расходятся */
 .fact__t{
-  display:block;font-size:13px;color:var(--muted);
-  margin-top:12px;line-height:1.38;max-width:24ch;text-wrap:pretty;
+  display:block;font-size:12.5px;color:var(--muted);
+  margin-top:9px;line-height:1.38;max-width:24ch;text-wrap:pretty;
 }
 @media(max-width:720px){
   .hero__facts{grid-template-columns:1fr 1fr;margin-top:calc(var(--u)*6)}
@@ -242,6 +242,19 @@ h1.hero__h em{font-style:italic;color:var(--ember)}
   .fact:nth-child(odd){padding-left:0}
   .fact:nth-child(even){border-right:0;padding-right:0}
   .fact:nth-child(n+3){border-top:1px solid var(--line-solid)}
+}
+
+/* Невысокие экраны: ужимаем герой, чтобы факты остались на первом экране */
+@media(max-height:780px) and (min-width:861px){
+  .hero{padding:clamp(24px,2.6vw,38px) 0 clamp(24px,2.6vw,34px)}
+  .hero__place{margin-bottom:calc(var(--u)*2)}
+  h1.hero__h{font-size:clamp(30px,3.9vw,48px);margin-bottom:calc(var(--u)*2)}
+  .hero__lead{font-size:16px;line-height:1.5}
+  .hero__cta{margin-top:calc(var(--u)*3)}
+  .hero__facts{margin-top:calc(var(--u)*3)}
+  .fact{padding:16px 20px}
+  .fact__n{font-size:clamp(22px,2vw,26px)}
+  .fact__t{margin-top:7px}
 }
 
 /* ── Бегущая лента ──────────────────────────────────────────── */
@@ -259,20 +272,20 @@ h1.hero__h em{font-style:italic;color:var(--ember)}
 @keyframes run{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ── Общая раскладка секций ─────────────────────────────────── */
-.sec{padding:clamp(72px,10vw,124px) 0}
+.sec{padding:clamp(52px,6.4vw,88px) 0}
 .sec--dark{background:var(--night-2)}
-.sec__head{max-width:62ch;margin-bottom:calc(var(--u)*7)}
-.sec__h{font-size:clamp(29px,4.4vw,50px);line-height:1.1;margin-bottom:calc(var(--u)*3)}
+.sec__head{max-width:62ch;margin-bottom:calc(var(--u)*5)}
+.sec__h{font-size:clamp(26px,3.2vw,38px);line-height:1.12;margin-bottom:calc(var(--u)*2)}
 .sec__h em{font-style:italic;color:var(--ember)}
 
 /* ── Три причины ────────────────────────────────────────────── */
 .reasons{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-solid);border:1px solid var(--line-solid)}
-.reason{background:var(--night);padding:clamp(28px,3.4vw,44px);display:flex;flex-direction:column;gap:18px;transition:background .3s ease}
+.reason{background:var(--night);padding:clamp(22px,2.4vw,32px);display:flex;flex-direction:column;gap:14px;transition:background .3s ease}
 .reason:hover{background:var(--card)}
-.reason__ic{width:38px;height:38px;color:var(--ember)}
+.reason__ic{width:30px;height:30px;color:var(--ember)}
 .reason__ic svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
-.reason h3{font-size:clamp(20px,2.4vw,25px);line-height:1.2}
-.reason p{font-size:15.5px;line-height:1.6;color:var(--muted)}
+.reason h3{font-size:clamp(18px,1.9vw,21px);line-height:1.22}
+.reason p{font-size:14.5px;line-height:1.55;color:var(--muted)}
 @media(max-width:860px){.reasons{grid-template-columns:1fr}}
 
 /* ── Чан: широкая полоса ────────────────────────────────────── */
@@ -382,18 +395,22 @@ h1.hero__h em{font-style:italic;color:var(--ember)}
 .check__a b{color:var(--ember-soft);font-weight:600}
 @media(max-width:760px){.check__row{grid-template-columns:1fr;gap:10px}}
 
-/* ── Рейтинг ────────────────────────────────────────────────── */
-.rating{
-  display:grid;grid-template-columns:auto 1fr;gap:clamp(28px,5vw,64px);
-  align-items:center;
-  border:1px solid var(--line-solid);border-radius:24px;
-  padding:clamp(32px,5vw,56px);background:var(--card);
+/* ── Отзывы ─────────────────────────────────────────────────── */
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(var(--u)*2)}
+.review{
+  border:1px solid var(--line-solid);border-radius:16px;background:var(--card);
+  padding:22px 24px;display:flex;flex-direction:column;gap:12px;min-height:186px;
 }
-.rating__num{font-family:var(--serif);font-size:clamp(64px,11vw,120px);line-height:.9;color:var(--ember)}
-.rating__stars{display:flex;gap:5px;margin-top:16px}
-.rating__stars svg{width:17px;height:17px;fill:var(--ember)}
-.rating__txt p+p{margin-top:16px}
-@media(max-width:700px){.rating{grid-template-columns:1fr;text-align:left}}
+.review__stars{display:flex;gap:4px}
+.review__stars svg{width:13px;height:13px;fill:var(--ember)}
+.review__txt{font-size:14.5px;line-height:1.55;color:var(--cream)}
+.review__who{font-size:12.5px;color:var(--muted-2);margin-top:auto;padding-top:10px}
+/* Пустой слот: сразу видно, что сюда нужен настоящий отзыв */
+.review--slot{border-style:dashed;background:transparent}
+.review--slot .review__txt{color:var(--muted-2)}
+.reviews__cta{display:flex;justify-content:center;margin-top:calc(var(--u)*4)}
+@media(max-width:900px){.reviews{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.reviews{grid-template-columns:1fr}}
 
 /* ── Вопросы ────────────────────────────────────────────────── */
 .faq{border-top:1px solid var(--line-solid)}
@@ -416,25 +433,33 @@ h1.hero__h em{font-style:italic;color:var(--ember)}
 .faq__a p+p{margin-top:14px}
 
 /* ── Контакты ───────────────────────────────────────────────── */
-.contact{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,5vw,72px);align-items:start}
+.contact{display:grid;grid-template-columns:1fr .82fr;gap:calc(var(--u)*3);align-items:stretch}
+.contact__card{
+  border:1px solid var(--line-solid);border-radius:22px;background:var(--card);
+  padding:clamp(24px,2.8vw,34px);display:flex;flex-direction:column;
+}
 .contact__tel{
-  font-family:var(--serif);font-size:clamp(27px,4.2vw,42px);
-  color:var(--cream);text-decoration:none;display:block;line-height:1.25;
+  font-family:var(--serif);font-size:clamp(21px,2.2vw,28px);
+  color:var(--cream);text-decoration:none;display:block;line-height:1.3;
   transition:color .18s ease;letter-spacing:-.01em;
 }
 .contact__tel:hover{color:var(--ember)}
-.contact__tel+.contact__tel{margin-top:10px}
-.contact__meta{display:grid;gap:calc(var(--u)*3);margin-top:calc(var(--u)*5)}
-.meta__row{display:grid;grid-template-columns:120px 1fr;gap:18px;font-size:15px;align-items:baseline}
+.contact__tel+.contact__tel{margin-top:6px}
+.contact__meta{
+  display:grid;gap:calc(var(--u)*2);margin-top:calc(var(--u)*3);
+  padding-top:calc(var(--u)*3);border-top:1px solid var(--line-solid);
+}
+.meta__row{display:grid;grid-template-columns:96px 1fr;gap:14px;font-size:14px;align-items:baseline}
 .meta__k{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2)}
 .meta__v{color:var(--cream);line-height:1.55}
 .meta__v a{color:var(--ember);text-decoration:none;border-bottom:1px solid rgba(232,171,99,.35)}
 .card-map{
   border:1px solid var(--line-solid);border-radius:22px;overflow:hidden;background:var(--card);
+  display:flex;flex-direction:column;
 }
-.card-map__art{position:relative;aspect-ratio:4/3;background:var(--night-2);display:flex;align-items:center;justify-content:center;padding:24px}
+.card-map__art{position:relative;aspect-ratio:4/3;flex:1;background:var(--night-2);display:flex;align-items:center;justify-content:center;padding:24px}
 .card-map__art svg{width:100%;height:100%}
-.card-map__foot{padding:22px 24px;border-top:1px solid var(--line-solid)}
+.card-map__foot{padding:18px 22px;border-top:1px solid var(--line-solid)}
 @media(max-width:860px){.contact{grid-template-columns:1fr}}
 
 /* ── Подвал ─────────────────────────────────────────────────── */
@@ -747,7 +772,7 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
     <div class="halls">
 
       <!-- ГЛАВНЫЙ ЗАЛ -->
-      <article class="hall hall--lead rise">
+      <article class="hall rise">
         <div class="ph hall__ph"><img src="photos/russkiy.jpg" alt="Зал «Русский»: длинный стол с лавками, бревенчатые стены, зона с кухней"></div>
         <div class="hall__in">
         <div class="hall__top">
@@ -1041,30 +1066,57 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
 <!-- ═══════════════ РЕЙТИНГ ═══════════════ -->
 <section class="sec sec--dark" id="otzyvy">
   <div class="wrap">
-    <div class="rating rise">
-      <div>
-        <div class="rating__num">4,9</div>
-        <div class="rating__stars" aria-hidden="true">
-          <svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L1.5 7.7l5.9-.9z"/></svg>
-          <svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L1.5 7.7l5.9-.9z"/></svg>
-          <svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L1.5 7.7l5.9-.9z"/></svg>
-          <svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L1.5 7.7l5.9-.9z"/></svg>
-          <svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L1.5 7.7l5.9-.9z"/></svg>
-        </div>
-      </div>
-      <div class="rating__txt">
-        <h2 class="sec__h" style="font-size:clamp(24px,3.2vw,34px)">251&nbsp;оценка и&nbsp;217&nbsp;отзывов в&nbsp;2ГИС</h2>
-        <p class="lead dim">
-          Мы не пересказываем отзывы своими словами и&nbsp;не выбираем из&nbsp;них
-          самые красивые. Откройте карточку и&nbsp;прочитайте всё подряд&nbsp;— вместе
-          с&nbsp;теми, где нами были недовольны.
-        </p>
-        <p style="margin-top:26px">
-          <a class="btn btn--ghost" href="https://2gis.ru/almetevsk/firm/70000001027319496" target="_blank" rel="noopener">Читать отзывы в&nbsp;2ГИС</a>
-        </p>
-        <p class="tiny" style="margin-top:18px">Данные карточки 2ГИС на сентябрь 2026&nbsp;года</p>
-      </div>
+    <div class="sec__head rise">
+      <p class="eyebrow">Отзывы</p>
+      <h2 class="sec__h">4,9 из&nbsp;5&nbsp;— <em>251 оценка</em> и&nbsp;217 отзывов</h2>
+      <p class="lead dim">
+        Мы не пересказываем отзывы своими словами и&nbsp;не выбираем из&nbsp;них
+        самые красивые. Ниже&nbsp;— то, что гости написали в&nbsp;2ГИС, дословно.
+      </p>
     </div>
+
+    <!-- ═══ СЛОТЫ ПОД ОТЗЫВЫ ═══
+         Выдумывать отзывы нельзя: ст. 5 ФЗ «О рекламе» (недостоверная реклама),
+         за поддельные отзывы штрафуют. Скопируйте шесть настоящих отзывов
+         из карточки 2ГИС дословно, вместе с именем автора и датой,
+         и снимите класс review--slot. -->
+    <div class="reviews rise">
+      <article class="review review--slot">
+        <div class="review__stars" aria-hidden="true"></div>
+        <p class="review__txt">Место под отзыв из&nbsp;2ГИС. Скопируйте текст дословно, не редактируя.</p>
+        <p class="review__who">Имя автора&nbsp;· дата</p>
+      </article>
+      <article class="review review--slot">
+        <div class="review__stars" aria-hidden="true"></div>
+        <p class="review__txt">Место под отзыв из&nbsp;2ГИС. Скопируйте текст дословно, не редактируя.</p>
+        <p class="review__who">Имя автора&nbsp;· дата</p>
+      </article>
+      <article class="review review--slot">
+        <div class="review__stars" aria-hidden="true"></div>
+        <p class="review__txt">Место под отзыв из&nbsp;2ГИС. Скопируйте текст дословно, не редактируя.</p>
+        <p class="review__who">Имя автора&nbsp;· дата</p>
+      </article>
+      <article class="review review--slot">
+        <div class="review__stars" aria-hidden="true"></div>
+        <p class="review__txt">Место под отзыв из&nbsp;2ГИС. Скопируйте текст дословно, не редактируя.</p>
+        <p class="review__who">Имя автора&nbsp;· дата</p>
+      </article>
+      <article class="review review--slot">
+        <div class="review__stars" aria-hidden="true"></div>
+        <p class="review__txt">Место под отзыв из&nbsp;2ГИС. Скопируйте текст дословно, не редактируя.</p>
+        <p class="review__who">Имя автора&nbsp;· дата</p>
+      </article>
+      <article class="review review--slot">
+        <div class="review__stars" aria-hidden="true"></div>
+        <p class="review__txt">Место под отзыв из&nbsp;2ГИС. Скопируйте текст дословно, не редактируя.</p>
+        <p class="review__who">Имя автора&nbsp;· дата</p>
+      </article>
+    </div>
+
+    <div class="reviews__cta rise">
+      <a class="btn btn--ghost" href="https://2gis.ru/almetevsk/firm/70000001027319496" target="_blank" rel="noopener">Читать все 217&nbsp;отзывов в&nbsp;2ГИС</a>
+    </div>
+    <p class="tiny" style="text-align:center;margin-top:14px">Данные карточки 2ГИС на сентябрь 2026&nbsp;года</p>
   </div>
 </section>
 
@@ -1141,11 +1193,11 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
     </div>
 
     <div class="contact">
-      <div class="rise">
+      <div class="contact__card rise">
         <a class="contact__tel" href="tel:+79047667711">+7&nbsp;904&nbsp;766-77-11</a>
         <a class="contact__tel" href="tel:+79274534804">+7&nbsp;927&nbsp;453-48-04</a>
 
-        <p style="margin-top:28px">
+        <p style="margin-top:22px">
           <a class="btn btn--fill" href="https://wa.me/79047667711" target="_blank" rel="noopener">Написать в&nbsp;WhatsApp</a>
         </p>
 
