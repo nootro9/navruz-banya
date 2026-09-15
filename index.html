@@ -14,6 +14,28 @@
    Светлой темы нет и не планируется.
    ═══════════════════════════════════════════════════════════════ */
 
+/* ═══ Шрифты. Literata — заголовки, Golos Text — текст.
+   Оба под лицензией OFL, кириллица родная, файлы лежат рядом.
+   build.sh вшивает их в артефакт как data:, потому что CSP
+   опубликованной страницы режет любые внешние хосты. ═══ */
+@font-face{font-family:'Literata';src:url('fonts/literata-cyr.woff2') format('woff2');
+  font-weight:400 700;font-style:normal;font-display:swap;
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116,U+20BD}
+@font-face{font-family:'Literata';src:url('fonts/literata-lat.woff2') format('woff2');
+  font-weight:400 700;font-style:normal;font-display:swap;
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2122,U+2212}
+@font-face{font-family:'Literata';src:url('fonts/literata-cyr-italic.woff2') format('woff2');
+  font-weight:400 700;font-style:italic;font-display:swap;
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116,U+20BD}
+@font-face{font-family:'Literata';src:url('fonts/literata-lat-italic.woff2') format('woff2');
+  font-weight:400 700;font-style:italic;font-display:swap;
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2122,U+2212}
+@font-face{font-family:'Golos Text';src:url('fonts/golos-cyr.woff2') format('woff2');
+  font-weight:400 700;font-style:normal;font-display:swap;
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116,U+20BD}
+@font-face{font-family:'Golos Text';src:url('fonts/golos-lat.woff2') format('woff2');
+  font-weight:400 700;font-style:normal;font-display:swap;
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2122,U+2212}
 :root{
   --night:#0E0A07;
   --night-2:#150F0A;
@@ -28,8 +50,8 @@
   --muted:#AB9884;
   --muted-2:#7E6E5E;
   --water:#7FA8AC;
-  --serif:Georgia,Cambria,"PT Serif","Times New Roman",serif;
-  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:"Literata",Georgia,"PT Serif",serif;
+  --sans:"Golos Text",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
   --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
   --u:8px;
 }
@@ -408,6 +430,10 @@ h1.hero__h em{font-style:italic;color:var(--ember)}
 /* Пустой слот: сразу видно, что сюда нужен настоящий отзыв */
 .review--slot{border-style:dashed;background:transparent}
 .review--slot .review__txt{color:var(--muted-2)}
+.review__ok{
+  display:block;margin-top:5px;font-size:11.5px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--copper);
+}
 .reviews__cta{display:flex;justify-content:center;margin-top:calc(var(--u)*4)}
 @media(max-width:900px){.reviews{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.reviews{grid-template-columns:1fr}}
@@ -457,8 +483,13 @@ h1.hero__h em{font-style:italic;color:var(--ember)}
   border:1px solid var(--line-solid);border-radius:22px;overflow:hidden;background:var(--card);
   display:flex;flex-direction:column;
 }
-.card-map__art{position:relative;aspect-ratio:4/3;flex:1;background:var(--night-2);display:flex;align-items:center;justify-content:center;padding:24px}
+.card-map__art{position:relative;aspect-ratio:4/3;flex:1;background:var(--night-2);overflow:hidden}
 .card-map__art svg{width:100%;height:100%}
+.card-map__fallback{position:absolute;inset:0;padding:24px;display:flex;align-items:center;justify-content:center}
+.card-map__fallback svg{width:100%;height:100%}
+/* Кадр карты лежит поверх схемы; если он не загрузился — видна схема */
+.card-map__frame{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;
+  filter:grayscale(.25) brightness(.88) contrast(1.05)}
 .card-map__foot{padding:18px 22px;border-top:1px solid var(--line-solid)}
 @media(max-width:860px){.contact{grid-template-columns:1fr}}
 
@@ -505,6 +536,28 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
   .band__ph{aspect-ratio:16/11;order:-1}
 }
 
+/* ── Рисованные банные мотивы на фоне ───────────────────────────
+   Тонкая линия, низкая непрозрачность: работают как обои, а не
+   как иллюстрации. Не мешают тексту — лежат ниже и не ловят курсор */
+.deco{
+  position:absolute;pointer-events:none;z-index:0;
+  color:var(--ember);opacity:.07;
+}
+.deco svg{width:100%;height:100%;display:block;
+  fill:none;stroke:currentColor;stroke-width:1.1;
+  stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.sec > .wrap,.band > .wrap,.chan > .wrap{position:relative;z-index:1}
+.deco--l{left:-80px;width:min(340px,30vw);aspect-ratio:1/1}
+.deco--r{right:-70px;width:min(300px,26vw);aspect-ratio:1/1}
+.deco--top{top:6%}
+.deco--mid{top:32%}
+.deco--bot{bottom:4%}
+@media(max-width:1100px){.deco{display:none}}
+
+/* Пар над секцией: несколько тонких завитков */
+.steam-line{position:absolute;left:0;right:0;height:120px;pointer-events:none;
+  z-index:0;color:var(--copper);opacity:.10}
+.steam-line svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.2;stroke-linecap:round}
 /* ── Появление при прокрутке ────────────────────────────────── */
 /* Прятать блоки можно только если скрипт работает: без него страница
    обязана остаться читаемой целиком */
@@ -553,7 +606,7 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
 
 <!-- ═══════════════ ГЕРОЙ ═══════════════ -->
 <section class="hero">
-  <div class="hero__photo"><img src="photos/bassein.jpg" alt="Бассейн с подсветкой и живой зелёной стеной в банном комплексе «Навруз»"></div>
+  <div class="hero__photo"><img src="photos/bassein.jpg" alt="Бассейн с&nbsp;подсветкой и&nbsp;живой зелёной стеной в&nbsp;банном комплексе «Навруз»"></div>
   <div class="hero__glow"></div>
   <div class="hero__steam"><span></span><span></span></div>
   <div class="wrap">
@@ -582,7 +635,7 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
         <span class="fact__t">Рейтинг в&nbsp;2ГИС, сентябрь 2026&nbsp;года</span>
       </div>
       <div class="fact">
-        <b class="fact__n">217</b>
+        <b class="fact__n">218</b>
         <span class="fact__t">Отзывов гостей в&nbsp;карточке 2ГИС</span>
       </div>
       <div class="fact">
@@ -610,6 +663,18 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
   <div class="wrap">
     <div class="sec__head rise">
       <p class="eyebrow">Чем мы не сауна за углом</p>
+  <!-- Шайка и&nbsp;ковш -->
+  <div class="deco deco--l deco--mid" aria-hidden="true">
+    <svg viewBox="0 0 200 200">
+      <path d="M44 74h112l-11 96a13 13 0 0 1-13 12H68a13 13 0 0 1-13-12z"/>
+      <path d="M38 74h124"/>
+      <path d="M51 112h98M56 148h88"/>
+      <path d="M72 78v100M100 78v104M128 78v100"/>
+      <path d="M100 60c0-9 7-16 16-16s16 7 16 16"/>
+      <path d="M133 44c6-4 13-2 16 4"/>
+      <path d="M62 190l8-8M138 190l-8-8"/>
+    </svg>
+  </div>
       <h2 class="sec__h">Три вещи, которые <em>нельзя подделать</em></h2>
       <p class="lead dim">
         Плитку можно положить в&nbsp;любой сауне, а&nbsp;вот это&nbsp;— нет.
@@ -733,6 +798,19 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
 
 <!-- ═══════════════ ХАММАМ ═══════════════ -->
 <section class="band sec--dark" id="hammam">
+  <!-- Дубовый веник -->
+  <div class="deco deco--r deco--top" aria-hidden="true">
+    <svg viewBox="0 0 200 200">
+      <path d="M100 196V104"/>
+      <path d="M100 104c-24-6-40-22-46-46 24 2 40 14 46 34z"/>
+      <path d="M100 104c24-6 40-22 46-46-24 2-40 14-46 34z"/>
+      <path d="M100 72c-20-8-32-24-34-46 20 6 32 20 34 40z"/>
+      <path d="M100 72c20-8 32-24 34-46-20 6-32 20-34 40z"/>
+      <path d="M100 44c-9-8-13-19-12-32 9 7 13 17 12 28z"/>
+      <path d="M100 44c9-8 13-19 12-32-9 7-13 17-12 28z"/>
+      <path d="M86 128h28M84 146h32"/>
+    </svg>
+  </div>
   <div class="wrap">
     <div class="band__in">
       <div class="rise">
@@ -751,7 +829,7 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
         </ul>
       </div>
       <div class="ph band__ph rise">
-        <img src="photos/hammam.jpg" alt="Турецкая парная: подогреваемый мозаичный лежак с подсветкой, стены из камня и дерева">
+        <img src="photos/hammam.jpg" alt="Турецкая парная: подогреваемый мозаичный лежак с&nbsp;подсветкой, стены из камня и&nbsp;дерева">
       </div>
     </div>
   </div>
@@ -759,6 +837,16 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
 
 <!-- ═══════════════ КОМПЛЕКСЫ ═══════════════ -->
 <section class="sec" id="zaly">
+  <!-- Тюльпанная розетка, татарский мотив -->
+  <div class="deco deco--r deco--mid" aria-hidden="true">
+    <svg viewBox="0 0 200 200">
+      <path d="M100 178V96"/>
+      <path d="M100 96c0-30 14-51 36-64-3 23 3 41 14 53-19 16-36 18-50 11z"/>
+      <path d="M100 96c0-30-14-51-36-64 3 23-3 41-14 53 19 16 36 18 50 11z"/>
+      <path d="M100 92c0-24 7-42 17-56-7 4-13 9-17 15-4-6-10-11-17-15 10 14 17 32 17 56z"/>
+      <path d="M100 138c-14 0-25-8-28-18 14-4 24 2 28 12M100 138c14 0 25-8 28-18-14-4-24 2-28 12"/>
+    </svg>
+  </div>
   <div class="wrap">
     <div class="sec__head rise">
       <p class="eyebrow">Комплексы</p>
@@ -773,7 +861,7 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
 
       <!-- ГЛАВНЫЙ ЗАЛ -->
       <article class="hall rise">
-        <div class="ph hall__ph"><img src="photos/russkiy.jpg" alt="Зал «Русский»: длинный стол с лавками, бревенчатые стены, зона с кухней"></div>
+        <div class="ph hall__ph"><img src="photos/russkiy.jpg" alt="Зал «Русский»: длинный стол с&nbsp;лавками, бревенчатые стены, зона с&nbsp;кухней"></div>
         <div class="hall__in">
         <div class="hall__top">
           <div>
@@ -811,7 +899,7 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
 
       <!-- ЗАЛ С БАССЕЙНОМ -->
       <article class="hall rise">
-        <div class="ph hall__ph"><img src="photos/bassein-zona.jpg" alt="Зона у бассейна: камень, тёмное дерево, круглое зеркало с подсветкой"></div>
+        <div class="ph hall__ph"><img src="photos/bassein-zona.jpg" alt="Зона у&nbsp;бассейна: камень, тёмное дерево, круглое зеркало с&nbsp;подсветкой"></div>
         <div class="hall__in">
         <div class="hall__top">
           <div>
@@ -843,7 +931,7 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
 
       <!-- ЗАЛ №2 -->
       <article class="hall rise">
-        <div class="ph hall__ph"><img src="photos/otdyh.jpg" alt="Комната отдыха: дубовый стол с лавками, диван, зелень с тёплыми лампами"></div>
+        <div class="ph hall__ph"><img src="photos/otdyh.jpg" alt="Комната отдыха: дубовый стол с&nbsp;лавками, диван, зелень с&nbsp;тёплыми лампами"></div>
         <div class="hall__in">
         <div class="hall__top">
           <div>
@@ -870,7 +958,7 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
 
       <!-- НЕВСКИЙ -->
       <article class="hall rise">
-        <div class="ph hall__ph"><img src="photos/kuhnya.jpg" alt="Зона с кухней: деревянная столешница, раковина, телевизор, арочные зеркала"></div>
+        <div class="ph hall__ph"><img src="photos/kuhnya.jpg" alt="Зона с&nbsp;кухней: деревянная столешница, раковина, телевизор, арочные зеркала"></div>
         <div class="hall__in">
         <div class="hall__top">
           <div>
@@ -906,6 +994,17 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
 
 <!-- ═══════════════ ВЕЧЕР ПО ШАГАМ ═══════════════ -->
 <section class="sec sec--dark" id="vecher">
+  <!-- Банная шапка и&nbsp;пар -->
+  <div class="deco deco--l deco--bot" aria-hidden="true">
+    <svg viewBox="0 0 200 200">
+      <path d="M44 172c0-44 25-76 56-76s56 32 56 76z"/>
+      <path d="M36 172h128"/>
+      <path d="M36 172v12h128v-12"/>
+      <path d="M100 96c-14-10-14-24 0-34"/>
+      <path d="M74 66c-9-14 4-20-3-33s6-19 6-19"/>
+      <path d="M126 66c-9-14 4-20-3-33s6-19 6-19"/>
+    </svg>
+  </div>
   <div class="wrap">
     <div class="sec__head rise">
       <p class="eyebrow">Как это выглядит</p>
@@ -956,6 +1055,16 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
   <div class="wrap">
     <div class="sec__head rise">
       <p class="eyebrow">Без доплат и&nbsp;сюрпризов</p>
+  <!-- Ельник -->
+  <div class="deco deco--r deco--bot" aria-hidden="true">
+    <svg viewBox="0 0 200 200">
+      <path d="M60 180V60M60 60L34 108h52zM60 84l-20 36M60 84l20 36"/>
+      <path d="M40 148h40M36 164h48"/>
+      <path d="M130 180V44M130 44l-30 56h60zM130 72l-24 44M130 72l24 44"/>
+      <path d="M104 152h52M100 168h60"/>
+      <path d="M20 188h160"/>
+    </svg>
+  </div>
       <h2 class="sec__h">Что уже <em>внутри цены</em></h2>
       <p class="lead dim">
         Из дома достаточно взять хорошее настроение и&nbsp;то, что хотите поставить
@@ -1068,7 +1177,7 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
   <div class="wrap">
     <div class="sec__head rise">
       <p class="eyebrow">Отзывы</p>
-      <h2 class="sec__h">4,9 из&nbsp;5&nbsp;— <em>251 оценка</em> и&nbsp;217 отзывов</h2>
+      <h2 class="sec__h">4,9 из&nbsp;5&nbsp;— <em>251 оценка</em> и&nbsp;218 отзывов</h2>
       <p class="lead dim">
         Мы не пересказываем отзывы своими словами и&nbsp;не выбираем из&nbsp;них
         самые красивые. Ниже&nbsp;— то, что гости написали в&nbsp;2ГИС, дословно.
@@ -1078,43 +1187,39 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
     <!-- ═══ СЛОТЫ ПОД ОТЗЫВЫ ═══
          Выдумывать отзывы нельзя: ст. 5 ФЗ «О рекламе» (недостоверная реклама),
          за поддельные отзывы штрафуют. Скопируйте шесть настоящих отзывов
-         из карточки 2ГИС дословно, вместе с именем автора и датой,
-         и снимите класс review--slot. -->
+         из карточки 2ГИС дословно, вместе с&nbsp;именем автора и&nbsp;датой,
+         и&nbsp;снимите класс review--slot. -->
+    <!-- Отзывы скопированы дословно из карточки 2ГИС, с&nbsp;именами и&nbsp;датами.
+         Орфография авторов сохранена — править её нельзя. -->
     <div class="reviews rise">
-      <article class="review review--slot">
-        <div class="review__stars" aria-hidden="true"></div>
-        <p class="review__txt">Место под отзыв из&nbsp;2ГИС. Скопируйте текст дословно, не редактируя.</p>
-        <p class="review__who">Имя автора&nbsp;· дата</p>
+      <article class="review">
+        <p class="review__txt">Хочу сказать большое спасибо сауне «Навруз»! Всё прошло просто замечательно. Очень понравилась атмосфера&nbsp;— уютно, чисто и&nbsp;спокойно. Пар отличный, лёгкий, прогрелись как следует. Отдельное спасибо за прохладный бассейн&nbsp;— после парилки заходит идеально. Всё необходимое есть: и&nbsp;шапки, и&nbsp;веники, и&nbsp;чай. Отдыхали душой и&nbsp;телом. Обязательно придём сюда ещё раз!</p>
+        <p class="review__who">Артемий Баев&nbsp;· 13 июня 2026 <span class="review__ok">Отзыв подтверждён</span></p>
       </article>
-      <article class="review review--slot">
-        <div class="review__stars" aria-hidden="true"></div>
-        <p class="review__txt">Место под отзыв из&nbsp;2ГИС. Скопируйте текст дословно, не редактируя.</p>
-        <p class="review__who">Имя автора&nbsp;· дата</p>
+      <article class="review">
+        <p class="review__txt">Замечательный комплекс. Отдыхали с&nbsp;детьми. Все чисто и&nbsp;уютно. Ощущение, что на дорогом курорте, все такое новенькое и&nbsp;чистое. Бассейн чистый и&nbsp;теплый. Администрация сауны очень приятная. А&nbsp;горячий чан на улице вообще супер, да ещё и&nbsp;с&nbsp;гидромассажем. Мы отдохнули на все 200%. Рекомендую!!!! Вернемся снова!!!!</p>
+        <p class="review__who">Городской житель&nbsp;· 29 декабря 2024 <span class="review__ok">Отзыв подтверждён</span></p>
       </article>
-      <article class="review review--slot">
-        <div class="review__stars" aria-hidden="true"></div>
-        <p class="review__txt">Место под отзыв из&nbsp;2ГИС. Скопируйте текст дословно, не редактируя.</p>
-        <p class="review__who">Имя автора&nbsp;· дата</p>
+      <article class="review">
+        <p class="review__txt">Были здесь с&nbsp;друзьями на день рождения&nbsp;— в&nbsp;бане чисто, дерево приятно пахнет, каменка держит температуру без перепадов. После парной ныряли в&nbsp;чан, и&nbsp;вечер удался именно из-за этого контраста жара и&nbsp;горячей воды на улице. Всем рекомендую данный комплекс!</p>
+        <p class="review__who">Draywy житель&nbsp;· 13 июля 2026</p>
       </article>
-      <article class="review review--slot">
-        <div class="review__stars" aria-hidden="true"></div>
-        <p class="review__txt">Место под отзыв из&nbsp;2ГИС. Скопируйте текст дословно, не редактируя.</p>
-        <p class="review__who">Имя автора&nbsp;· дата</p>
+      <article class="review">
+        <p class="review__txt">Очень понравился комплекс! чисто, уютно и&nbsp;комфортно. Персонал отличный и&nbsp;вежливый. Есть афигенная мангальная территория. И&nbsp;классное массажное кресло. Бассейн чистый и&nbsp;теплый, выходить даже нехотелось Очень довольны! Приедем ещё</p>
+        <p class="review__who">Диляра Саидовна&nbsp;· 22 января 2025 <span class="review__ok">Отзыв подтверждён</span></p>
       </article>
-      <article class="review review--slot">
-        <div class="review__stars" aria-hidden="true"></div>
-        <p class="review__txt">Место под отзыв из&nbsp;2ГИС. Скопируйте текст дословно, не редактируя.</p>
-        <p class="review__who">Имя автора&nbsp;· дата</p>
+      <article class="review">
+        <p class="review__txt">Очень понравилось место для отдыха с&nbsp;компанией. Атмосферно и&nbsp;стиль в&nbsp;каждой детали. В&nbsp;следующий раз вернемся с&nbsp;родителями, чтобы просто расслабиться и&nbsp;поменять обстановку</p>
+        <p class="review__who">Миляуша Сулейманова&nbsp;· 29 января 2025 <span class="review__ok">Отзыв подтверждён</span></p>
       </article>
-      <article class="review review--slot">
-        <div class="review__stars" aria-hidden="true"></div>
-        <p class="review__txt">Место под отзыв из&nbsp;2ГИС. Скопируйте текст дословно, не редактируя.</p>
-        <p class="review__who">Имя автора&nbsp;· дата</p>
+      <article class="review">
+        <p class="review__txt">Приехали поздно вечером, все просто супер. Все чисто и&nbsp;аккуратно, вежливо общаются, точно ещё вернемся</p>
+        <p class="review__who">Эльвина Муртазина&nbsp;· 22 июня 2026</p>
       </article>
     </div>
 
     <div class="reviews__cta rise">
-      <a class="btn btn--ghost" href="https://2gis.ru/almetevsk/firm/70000001027319496" target="_blank" rel="noopener">Читать все 217&nbsp;отзывов в&nbsp;2ГИС</a>
+      <a class="btn btn--ghost" href="https://2gis.ru/almetevsk/firm/70000001027319496" target="_blank" rel="noopener">Читать все 218&nbsp;отзывов в&nbsp;2ГИС</a>
     </div>
     <p class="tiny" style="text-align:center;margin-top:14px">Данные карточки 2ГИС на сентябрь 2026&nbsp;года</p>
   </div>
@@ -1122,6 +1227,18 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
 
 <!-- ═══════════════ ВОПРОСЫ ═══════════════ -->
 <section class="sec" id="voprosy">
+  <!-- Шайка и&nbsp;ковш -->
+  <div class="deco deco--l deco--mid" aria-hidden="true">
+    <svg viewBox="0 0 200 200">
+      <path d="M44 74h112l-11 96a13 13 0 0 1-13 12H68a13 13 0 0 1-13-12z"/>
+      <path d="M38 74h124"/>
+      <path d="M51 112h98M56 148h88"/>
+      <path d="M72 78v100M100 78v104M128 78v100"/>
+      <path d="M100 60c0-9 7-16 16-16s16 7 16 16"/>
+      <path d="M133 44c6-4 13-2 16 4"/>
+      <path d="M62 190l8-8M138 190l-8-8"/>
+    </svg>
+  </div>
   <div class="wrap">
     <div class="sec__head rise">
       <p class="eyebrow">Вопросы</p>
@@ -1223,26 +1340,30 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
       </div>
 
       <div class="card-map rise">
-        <div class="card-map__art" aria-hidden="true">
-          <!-- Схематичная карточка адреса вместо внешней карты:
-               внешние скрипты и&nbsp;тайлы на странице не используются -->
-          <svg viewBox="0 0 320 240" fill="none" stroke="var(--line-solid)" stroke-width="1.2">
-            <path d="M0 62h320M0 150h320M78 0v240M222 0v240" opacity=".9"/>
-            <path d="M0 104h78M222 196h98" opacity=".5"/>
-            <g opacity=".5" stroke="var(--muted-2)" stroke-width="1">
-              <rect x="14" y="14" width="46" height="34" rx="3"/>
-              <rect x="240" y="14" width="60" height="34" rx="3"/>
-              <rect x="14" y="166" width="46" height="56" rx="3"/>
-              <rect x="240" y="76" width="60" height="58" rx="3"/>
-            </g>
-            <!-- Квартал комплекса -->
-            <rect x="96" y="80" width="108" height="54" rx="6" fill="rgba(232,171,99,.07)" stroke="var(--ember)" stroke-width="1.2"/>
-            <!-- Метка -->
-            <path d="M150 96a10 10 0 0 1 20 0c0 7-10 18-10 18s-10-11-10-18z" fill="var(--ember)" stroke="none"/>
-            <circle cx="160" cy="96" r="3.4" fill="#150F0A" stroke="none"/>
-            <text x="160" y="128" text-anchor="middle" fill="var(--ember)" stroke="none"
-                  style="font:600 11px Georgia,serif;letter-spacing:.18em">НАВРУЗ, 65</text>
-          </svg>
+        <!-- Карта Яндекса. На опубликованном артефакте внешние кадры режет CSP,
+             поэтому под картой лежит нарисованная схема: если карта не
+             загрузилась, гость всё равно видит, где мы стоим -->
+        <div class="card-map__art">
+          <div class="card-map__fallback" aria-hidden="true">
+            <svg viewBox="0 0 320 240" fill="none" stroke="var(--line-solid)" stroke-width="1.2">
+              <path d="M0 62h320M0 150h320M78 0v240M222 0v240" opacity=".9"/>
+              <path d="M0 104h78M222 196h98" opacity=".5"/>
+              <g opacity=".5" stroke="var(--muted-2)" stroke-width="1">
+                <rect x="14" y="14" width="46" height="34" rx="3"/>
+                <rect x="240" y="14" width="60" height="34" rx="3"/>
+                <rect x="14" y="166" width="46" height="56" rx="3"/>
+                <rect x="240" y="76" width="60" height="58" rx="3"/>
+              </g>
+              <rect x="96" y="80" width="108" height="54" rx="6" fill="rgba(232,171,99,.07)" stroke="var(--ember)" stroke-width="1.2"/>
+              <path d="M150 96a10 10 0 0 1 20 0c0 7-10 18-10 18s-10-11-10-18z" fill="var(--ember)" stroke="none"/>
+              <circle cx="160" cy="96" r="3.4" fill="#150F0A" stroke="none"/>
+              <text x="160" y="128" text-anchor="middle" fill="var(--ember)" stroke="none"
+                    style="font:600 11px Literata,Georgia,serif;letter-spacing:.18em">НАВРУЗ, 65</text>
+            </svg>
+          </div>
+          <iframe class="card-map__frame" title="Банный комплекс «Навруз» на карте"
+                  src="https://yandex.ru/map-widget/v1/?ll=52.344705%2C54.890614&z=17&pt=52.344705,54.890614,pm2rdm"
+                  loading="lazy" allowfullscreen></iframe>
         </div>
         <div class="card-map__foot">
           <p class="small" style="color:var(--cream)">Улица&nbsp;Навруз,&nbsp;65</p>
