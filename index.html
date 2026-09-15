@@ -57,7 +57,7 @@
 }
 
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;overflow-x:clip}
 
 body{
   margin:0;
@@ -294,7 +294,7 @@ h1.hero__h em{font-style:italic;color:var(--ember)}
 @keyframes run{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ── Общая раскладка секций ─────────────────────────────────── */
-.sec{padding:clamp(52px,6.4vw,88px) 0}
+.sec{padding:clamp(52px,6.4vw,88px) 0;overflow:hidden}
 .sec--dark{background:var(--night-2)}
 .sec__head{max-width:62ch;margin-bottom:calc(var(--u)*5)}
 .sec__h{font-size:clamp(26px,3.2vw,38px);line-height:1.12;margin-bottom:calc(var(--u)*2)}
