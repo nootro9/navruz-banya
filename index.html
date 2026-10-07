@@ -279,6 +279,14 @@ h1.hero__h em{font-style:italic;color:var(--ember)}
   .fact__t{margin-top:7px}
 }
 
+@media(max-width:600px){
+  /* Разделитель не должен висеть в конце строки перед переносом */
+  .hero__place-dot{display:none}
+  .hero__place{gap:4px 10px}
+  /* Цена встаёт под названием зала — выключка по левому краю */
+  .hall__price{text-align:left}
+}
+
 /* ── Бегущая лента ──────────────────────────────────────────── */
 .ticker{
   border-top:1px solid var(--line-solid);border-bottom:1px solid var(--line-solid);
@@ -612,7 +620,7 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
   <div class="wrap">
     <div class="hero__place">
       <span>Альметьевск&nbsp;· улица&nbsp;Навруз,&nbsp;65</span>
-      <span>·</span>
+      <span class="hero__place-dot" aria-hidden="true">·</span>
       <b>Круглосуточно</b>
     </div>
 
@@ -1460,6 +1468,17 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
     });
   }, {rootMargin:'0px 0px -8% 0px', threshold:.08});
   items.forEach(function(el){ io.observe(el); });
+
+  // Страховка: если наблюдатель почему-то не сработал, через три секунды
+  // показываем всё, до чего гость уже долистал. Текст на странице не должен
+  // зависеть от того, доехал ли до него скрипт
+  setInterval(function(){
+    var h = window.innerHeight;
+    items.forEach(function(el){
+      if (el.classList.contains('in')) return;
+      if (el.getBoundingClientRect().top < h) el.classList.add('in');
+    });
+  }, 3000);
 })();
 </script>
 <!-- ARTIFACT-END -->
