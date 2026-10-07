@@ -279,14 +279,6 @@ h1.hero__h em{font-style:italic;color:var(--ember)}
   .fact__t{margin-top:7px}
 }
 
-@media(max-width:600px){
-  /* Разделитель не должен висеть в конце строки перед переносом */
-  .hero__place-dot{display:none}
-  .hero__place{gap:4px 10px}
-  /* Цена встаёт под названием зала — выключка по левому краю */
-  .hall__price{text-align:left}
-}
-
 /* ── Бегущая лента ──────────────────────────────────────────── */
 .ticker{
   border-top:1px solid var(--line-solid);border-bottom:1px solid var(--line-solid);
@@ -571,6 +563,15 @@ footer{background:var(--night-2);border-top:1px solid var(--line-solid);padding:
    обязана остаться читаемой целиком */
 .js .rise{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
 .js .rise.in{opacity:1;transform:none}
+
+@media(max-width:600px){
+  /* Разделитель не должен висеть в конце строки перед переносом */
+  .hero__place-dot{display:none}
+  .hero__place{gap:4px 10px}
+  /* Цена встаёт под названием зала — выключка по левому краю.
+     Правило живёт в конце: выше его перебивает text-align:right */
+  .hall__price{text-align:left}
+}
 
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
